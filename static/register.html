@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style media="screen">
+      form{
+        display : flex;
+        flex-direction : column;
+        width : 65%;
+      }
+      input[type = "text"] , input[type="email"] , input[type="password"]{
+        width : 65%;
+        height : 30px;
+        margin-bottom : 10px;
+      }
+
+      input[type="submit"]{
+        width : 100px;
+        height: 40px;
+        border:none;
+        cursor:pointer;
+
+      }
+
+      .register{
+        margin : auto  30%;
+        width: 100%;
+      }
+    </style>
+
+		<title>Document</title
+	</head>
+
+	<body>
+<div class="register">
+  <h1>Registration</h1>
+
+  <form id="reg-form">
+    <input type="text"  id="username" placeholder="Username" />
+    <input type="email"  id="email" placeholder="Email" />
+    <input type="text"  id="exp"  placeholder="Experience" />
+		<input type="text"  id="skills"  placeholder="Enter Skills  (separate your skills with a comma)" />
+    <input type="text"  id="degree" placeholder="Degree..." />
+    <input type="password"  id="password" placeholder="Password" />
+    <input type="submit" value="Submit Form"/>
+  </form>
+</div>
+
+
+
+    <script>
+			const form = document.getElementById('reg-form')
+			form.addEventListener('submit', registerUser)
+
+			async function registerUser(event) {
+				event.preventDefault()
+        const username = document.getElementById('username').value
+				const password = document.getElementById('password').value
+        const email = document.getElementById('email').value
+        const exp = document.getElementById('exp').value
+				const skills = document.getElementById('skills').value
+        const degree = document.getElementById('degree').value
+
+        const result = await fetch('/register', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						username,
+            email,
+            exp,
+            degree,
+						skills,
+            password
+					})
+				}).then((res) => res.json())
+
+				if (result.status === 'ok') {
+					console.log("ok");
+					alert('Success')
+				} else {
+					console.log("not ok");
+
+					alert(result.error)
+				}
+			}
+		</script>
+	</body>
+</html>
